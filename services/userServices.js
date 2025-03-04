@@ -14,8 +14,8 @@ export const registerUserServices = async (data) => {
 
         // Save the user to the database
         await user1.save();
-
-        return user1;
+console.log(user1)
+        return "success";
 
     } catch (error) {
         // Log the error for internal debugging

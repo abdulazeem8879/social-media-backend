@@ -1,3 +1,4 @@
+import { hashCreating } from "../auth/authentication.js";
 import { registerUserServices } from "../services/userServices.js";
 
 export const registerController = async (req, res) => {
@@ -10,11 +11,26 @@ export const registerController = async (req, res) => {
   }
 
   try {
-    const user = await registerUserServices(req.body);
-    res.status(201).json({
-      message: "User created successfully",
-      user: user,
+    const hashedPassowrd = await hashCreating(password);
+    const user = await registerUserServices({
+      name,
+      email,
+      mobile,
+      password: hashedPassowrd,
     });
+    if (user == "success") {
+      res
+        .json({
+          message: "register user succesfully",
+        })
+        .status(201);
+    } else {
+      res
+        .json({
+          message: "already registered ",
+        })
+        .status(401);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -23,3 +39,5 @@ export const registerController = async (req, res) => {
     });
   }
 };
+
+export const loginUserController = async (req, res) => {};
